@@ -12,9 +12,10 @@ RUN git clone -v --depth 1 --single-branch --branch ${WARP_VERSION} https://gith
     && patch ~/src/warp-packer/src/main.rs ${PATCH_FILE} \
     && cargo build --release --target=${RUST_TARGET}
 
-FROM scratch
+FROM busybox
 WORKDIR /app
 ARG RUST_TARGET
+USER 1000:1000
 
 COPY --from=build /home/rust/src/target/${RUST_TARGET}/release/warp-packer .
 
